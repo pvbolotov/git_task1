@@ -1,0 +1,25 @@
+1. git clone https://github.com/pvbolotov/git_task1.git
+
+2. git hash-object -w ./foo.txt (выдаёт нам хэш dbdc67472ff2dfcf872d27cb25f78fc24ff0f82b)
+   git hash-object -w ./star.png (выдаёт нам хэш 75fbbdd78958f952531081b6220756c82598366b)
+
+3. git update-index --add --cacheinfo 100644 dbdc67472ff2dfcf872d27cb25f78fc24ff0f82b foo.txt
+   git update-index --add --cacheinfo 100644 75fbbdd78958f952531081b6220756c82598366b star.png
+   git rm --cached README.md
+//после этого можно посмотреть, какие файлы стали staged с помощью команды git ls-files --stage
+
+4. git write-tree (выдаёт хэш 2956e4955bd6c60ba989c74bbe4980902269be8e) //create a tree object from the current index
+
+5. git rm --cached foo.txt //When --cached is given, the staged content has to match either the tip of the branch or the file on disk, allowing the file to be removed from just the index.
+   git rm --cached star.png
+
+6. git read-tree --prefix=dir1 2956e4955bd6c60ba989c74bbe4980902269be8e
+
+7. git write-tree (выдаёт хэш f7ea00e3a6613aed784be614e6bc6bb729a9e893)
+
+8. git commit-tree f7ea00e3a6613aed784be614e6bc6bb729a9e893 -m "directory with two files created" (выдаёт хэш f1c0546a1755bde182213d0c1a93036408f15102) //Create a new commit object 
+
+9. git update-ref -m "moving master head to commit with dir1" refs/heads/master f1c0546a1755bde182213d0c1a93036408f15102
+
+10. git pull origin
+    git push origin
